@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio – Noah Christophe</title>
+  <style>
+    :root[data-theme="dark"] {
+      --bg: #0b1020;
+      --bg-soft: #121933;
+      --card: rgba(255,255,255,0.06);
+      --card-strong: rgba(255,255,255,0.1);
+      --text: #f4f7fb;
+      --muted: #b6bfd3;
+      --accent: #6ee7ff;
+      --accent-2: #a855f7;
+      --line: rgba(255,255,255,0.12);
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --btn-secondary-bg: rgba(255,255,255,0.04);
+      --skill-bg: rgba(255,255,255,0.06);
+      --toggle-bg: rgba(255,255,255,0.08);
+      --toggle-border: rgba(255,255,255,0.18);
+      --body-bg-1: rgba(168,85,247,.2);
+      --body-bg-2: rgba(110,231,255,.18);
+      --body-bg-grad: linear-gradient(180deg,#09101f 0%,#0d1328 100%);
+      --contact-bg: linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.04));
+      --cv-bg: rgba(255,255,255,0.04);
+      --cv-header-bg: linear-gradient(135deg, rgba(110,231,255,0.12), rgba(168,85,247,0.12));
+      --cv-sidebar: rgba(255,255,255,0.05);
+      --cv-dot: rgba(110,231,255,0.3);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f0f4ff;
+      --bg-soft: #e4eaf7;
+      --card: rgba(255,255,255,0.75);
+      --card-strong: rgba(255,255,255,0.95);
+      --text: #111827;
+      --muted: #4b5563;
+      --accent: #0284c7;
+      --accent-2: #7c3aed;
+      --line: rgba(0,0,0,0.10);
+      --shadow: 0 20px 50px rgba(0,0,0,0.10);
+      --btn-secondary-bg: rgba(0,0,0,0.05);
+      --skill-bg: rgba(0,0,0,0.05);
+      --toggle-bg: rgba(0,0,0,0.06);
+      --toggle-border: rgba(0,0,0,0.15);
+      --body-bg-1: rgba(168,85,247,.08);
+      --body-bg-2: rgba(14,165,233,.10);
+      --body-bg-grad: linear-gradient(180deg,#e8eeff 0%,#f0f4ff 100%);
+      --contact-bg: linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.6));
+      --cv-bg: rgba(255,255,255,0.85);
+      --cv-header-bg: linear-gradient(135deg, rgba(2,132,199,0.10), rgba(124,58,237,0.08));
+      --cv-sidebar: rgba(0,0,0,0.04);
+      --cv-dot: rgba(2,132,199,0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, var(--body-bg-1), transparent 35%),
+        radial-gradient(circle at top right, var(--body-bg-2), transparent 25%),
+        var(--body-bg-grad);
+      line-height: 1.6;
+      transition: background .4s ease, color .3s ease;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: auto; }
+    .container { width: min(92%, 1180px); margin: 0 auto; }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(9,16,31,0.78);
+      border-bottom: 1px solid var(--line);
+      transition: background .4s ease;
+    }
+    :root[data-theme="light"] header { background: rgba(240,244,255,0.82); }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; padding: 1rem 0;
+    }
+    .logo { font-size: 1.15rem; font-weight: 800; }
+    .logo span { color: var(--accent); }
+    .nav-links { list-style: none; display: flex; gap: 1.25rem; color: var(--muted); flex-wrap: wrap; }
+    .nav-links a:hover { color: var(--accent); }
+
+    .theme-toggle {
+      background: var(--toggle-bg); border: 1px solid var(--toggle-border);
+      color: var(--text); border-radius: 999px; padding: .45rem .9rem;
+      cursor: pointer; font-size: .95rem; font-weight: 700;
+      display: flex; align-items: center; gap: .45rem;
+      transition: background .25s, transform .2s; white-space: nowrap;
+    }
+    .theme-toggle:hover { transform: scale(1.06); }
+
+    /* HERO */
+    .hero { padding: 5rem 0 4rem; min-height: 95vh; display: grid; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 2rem; align-items: center; }
+
+    .badge {
+      display: inline-block; padding: .55rem .9rem; border-radius: 999px;
+      background: rgba(110,231,255,0.08); border: 1px solid rgba(110,231,255,0.28);
+      color: var(--accent); margin-bottom: 1rem; font-size: .95rem; font-weight: 700;
+    }
+    :root[data-theme="light"] .badge { background: rgba(2,132,199,0.08); border-color: rgba(2,132,199,0.28); }
+
+    h1 { font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.02; margin-bottom: 1rem; }
+    .hero p { color: var(--muted); font-size: 1.05rem; max-width: 650px; margin-bottom: 1.5rem; }
+
+    .highlight {
+      background: linear-gradient(90deg, var(--accent), #ffffff 45%, #d8b4fe 85%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    :root[data-theme="light"] .highlight {
+      background: linear-gradient(90deg, var(--accent), #7c3aed 60%, #0ea5e9 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: .9rem 1.15rem; border-radius: 14px; font-weight: 700; transition: .25s ease; border: 1px solid var(--line); }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), #8b5cf6); color: #fff; border: none; }
+    :root[data-theme="dark"] .btn-primary { color: #07111f; }
+    .btn-secondary { background: var(--btn-secondary-bg); }
+    .btn:hover { transform: translateY(-2px); }
+
+    .hero-card { background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 28px; overflow: hidden; }
+    .hero-card img { aspect-ratio: 4/5; object-fit: cover; object-position: center; }
+    .hero-card-content { padding: 1.25rem; display: grid; gap: .75rem; }
+    .hero-card-content h3 { font-size: 1.25rem; }
+    .hero-card-content p { color: var(--muted); margin: 0; }
+
+    .mini-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: .75rem; margin-top: .5rem; }
+    .mini-stats div { background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 16px; padding: .85rem; text-align: center; }
+    :root[data-theme="light"] .mini-stats div { background: rgba(0,0,0,0.04); }
+    .mini-stats strong { display: block; font-size: 1.2rem; color: var(--accent); }
+    .mini-stats span { color: var(--muted); font-size: .92rem; }
+
+    /* SECTIONS */
+    section { padding: 5rem 0; }
+    .section-head { margin-bottom: 2rem; }
+    .section-head h2 { font-size: 2rem; margin-bottom: .5rem; }
+    .section-head p { color: var(--muted); max-width: 760px; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .card { background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); border-radius: 24px; padding: 1.5rem; }
+    .card h3 { margin-bottom: .75rem; font-size: 1.2rem; }
+    .card p, .card li { color: var(--muted); }
+
+    .tools-showcase { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 1.25rem; align-items: start; }
+    .tools-image img { border-radius: 22px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .skills-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    .skill { background: var(--skill-bg); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 1.1rem; border-radius: 20px; text-align: center; font-weight: 700; }
+
+    /* PROJETS */
+    .projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .project-card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+    .project-image { position: relative; overflow: hidden; cursor: zoom-in; }
+    .project-image img { aspect-ratio: 16/10; object-fit: cover; transition: transform .35s ease; display: block; width: 100%; }
+    .project-image:hover img { transform: scale(1.04); }
+    .project-image::after { content: "🔍"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2rem; background: rgba(0,0,0,0.35); opacity: 0; transition: opacity .25s ease; }
+    .project-image:hover::after { opacity: 1; }
+    .project-content { padding: 1.25rem; display: grid; gap: .8rem; flex: 1; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag-list span { padding: .4rem .75rem; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    :root[data-theme="light"] .tag-list span { background: rgba(0,0,0,0.04); }
+
+    /* TIMELINE */
+    .timeline { display: grid; gap: 1rem; }
+    .timeline-item { background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 1.25rem; border-radius: 20px; }
+    .timeline-item h3 { margin-bottom: .35rem; }
+    .timeline-item p { color: var(--muted); }
+
+    /* ════════════ CV ════════════ */
+    #cv { padding: 5rem 0; }
+
+    .cv-wrapper {
+      background: var(--cv-bg);
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    /* En-tête CV */
+    .cv-header {
+      background: var(--cv-header-bg);
+      border-bottom: 1px solid var(--line);
+      padding: 2.5rem 2.5rem 2rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+    .cv-avatar {
+      width: 110px; height: 110px; border-radius: 50%;
+      object-fit: cover; object-position: center top;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 0 6px rgba(110,231,255,0.12);
+      flex-shrink: 0;
+    }
+    .cv-header-info h2 { font-size: 2rem; font-weight: 800; margin-bottom: .2rem; }
+    .cv-header-info .cv-title { color: var(--accent); font-size: 1.05rem; font-weight: 700; margin-bottom: .6rem; }
+    .cv-header-info .cv-desc { color: var(--muted); font-size: .95rem; max-width: 520px; }
+
+    .cv-header-contact { display: flex; flex-direction: column; gap: .55rem; text-align: right; }
+    .cv-contact-item { display: flex; align-items: center; gap: .5rem; justify-content: flex-end; color: var(--muted); font-size: .9rem; }
+    .cv-contact-item a { color: var(--accent); }
+    .cv-contact-item a:hover { text-decoration: underline; }
+
+    /* Corps 2 colonnes */
+    .cv-body { display: grid; grid-template-columns: 1fr 1.8fr; }
+
+    .cv-left {
+      background: var(--cv-sidebar);
+      border-right: 1px solid var(--line);
+      padding: 2rem 1.75rem;
+      display: flex; flex-direction: column; gap: 2rem;
+    }
+    .cv-right {
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 2rem;
+    }
+
+    /* Blocs CV */
+    .cv-block h3 {
+      font-size: .75rem; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1rem; padding-bottom: .4rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* Soft skills tags */
+    .cv-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .cv-tag {
+      padding: .35rem .75rem; border-radius: 999px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--line);
+      color: var(--muted); font-size: .85rem;
+    }
+    :root[data-theme="light"] .cv-tag { background: rgba(0,0,0,0.04); }
+
+    /* Centres d'intérêt */
+    .cv-hobbies { display: flex; flex-direction: column; gap: .5rem; }
+    .cv-hobby { display: flex; align-items: center; gap: .6rem; font-size: .9rem; color: var(--muted); }
+    .cv-hobby-icon { font-size: 1.1rem; }
+
+    /* Timeline CV */
+    .cv-timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+    .cv-tl-item { display: grid; grid-template-columns: 12px 1fr; gap: 0 1rem; align-items: start; }
+    .cv-tl-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent); margin-top: .35rem; flex-shrink: 0;
+      box-shadow: 0 0 0 4px var(--cv-dot);
+    }
+    .cv-tl-content h4 { font-size: .98rem; font-weight: 800; margin-bottom: .1rem; }
+    .cv-tl-meta { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .35rem; }
+    .cv-tl-org { color: var(--accent); font-size: .85rem; font-weight: 700; }
+    .cv-tl-date {
+      color: var(--muted); font-size: .82rem;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--line);
+      padding: .15rem .5rem; border-radius: 999px;
+    }
+    :root[data-theme="light"] .cv-tl-date { background: rgba(0,0,0,0.04); }
+    .cv-tl-content p { color: var(--muted); font-size: .88rem; line-height: 1.55; }
+    .cv-tl-content ul { list-style: none; display: flex; flex-direction: column; gap: .3rem; margin-top: .35rem; }
+    .cv-tl-content ul li { color: var(--muted); font-size: .88rem; padding-left: 1rem; position: relative; }
+    .cv-tl-content ul li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+
+    /* Bouton print */
+    .cv-actions { display: flex; justify-content: flex-end; margin-bottom: 1.25rem; }
+    .cv-print-btn {
+      display: flex; align-items: center; gap: .5rem;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: #fff; border: none; border-radius: 14px;
+      padding: .75rem 1.4rem; font-size: .95rem; font-weight: 700;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(110,231,255,0.2);
+    }
+    :root[data-theme="dark"] .cv-print-btn { color: #07111f; }
+    .cv-print-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(110,231,255,0.3); }
+
+    /* CONTACT */
+    .contact-box { text-align: center; padding: 2rem; border-radius: 28px; background: var(--contact-bg); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .contact-box p { color: var(--muted); max-width: 700px; margin: .8rem auto 1.3rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+
+    footer { padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); text-align: center; }
+
+    /* LIGHTBOX */
+    .lightbox-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+      opacity: 0; pointer-events: none; transition: opacity .3s ease;
+    }
+    .lightbox-overlay.active { opacity: 1; pointer-events: all; }
+    .lightbox-overlay img {
+      max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+      border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+      transform: scale(0.9); transition: transform .3s ease; cursor: zoom-out;
+    }
+    .lightbox-overlay.active img { transform: scale(1); }
+    .lightbox-close {
+      position: fixed; top: 1.25rem; right: 1.5rem;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; border-radius: 50%; width: 44px; height: 44px;
+      font-size: 1.4rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <header>
+    <nav class="container">
+      <div class="logo">Noah<span>.</span></div>
+      <ul class="nav-links">
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#skills">Compétences</a></li>
+        <li><a href="#projects">Projets</a></li>
+        <li><a href="#goals">Objectifs</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle">
+        <span id="themeIcon">☀️</span>
+        <span id="themeLabel">Mode clair</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <span class="badge">🎬 Créateur de contenu & Étudiant MMI</span>
+            <h1>Bonjour, je suis <span class="highlight">Noah Christophe</span></h1>
+            <p>Passionné par la création vidéo, le montage et la communication numérique. J'explore l'univers du multimédia à travers mes projets personnels et ma formation en BUT MMI.</p>
+            <div class="cta">
+              <a class="btn btn-primary" href="#projects">Voir mes projets</a>
+              <a class="btn btn-secondary" href="#contact">Me contacter</a>
+            </div>
+          </div>
+          <div class="hero-card">
+            <img src="photo portfolio.jpg" alt="Photo de Noah Christophe" />
+            <div class="hero-card-content">
+              <h3>Noah Christophe</h3>
+              <p>Étudiant BUT MMI · Créateur TikTok & YouTube</p>
+              <div class="mini-stats">
+                <div><strong>39K+</strong><span>Abonnés TikTok</span></div>
+                <div><strong>1,5M+</strong><span>Likes TikTok</span></div>
+                <div><strong>176</strong><span>Abonnés YouTube</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- À PROPOS -->
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <h2>À propos</h2>
+          <p>Qui je suis, ce qui me motive et ce que je veux construire.</p>
+        </div>
+        <div class="about-grid">
+          <div class="card">
+            <h3>Mon parcours</h3>
+            <p>Étudiant en BUT MMI (Métiers du Multimédia et de l'Internet), je développe des compétences en création de contenu, design, web et communication. Ma passion pour l'audiovisuel m'a conduit à créer et gérer mes propres chaînes TikTok et YouTube avec une vraie audience.</p>
+          </div>
+          <div class="card">
+            <h3>Ma vision</h3>
+            <p>Je veux allier créativité et technique pour créer des contenus qui marquent. Mon objectif est de transformer ma passion en métier, que ce soit dans le montage vidéo, le motion design, la communication visuelle ou la création de contenu numérique.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPÉTENCES -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-head">
+          <h2>Compétences</h2>
+          <p>Les outils et logiciels que j'utilise au quotidien dans mes projets.</p>
+        </div>
+        <div class="tools-showcase">
+          <div class="tools-image">
+            <img src="XRAJVA7BJDRGLMNG74DBQCRYY4.jpg" alt="Outils créatifs" />
+          </div>
+          <div class="skills-grid">
+            <div class="skill">🎬 Premiere Pro</div>
+            <div class="skill">🎨 Photoshop</div>
+            <div class="skill">🎞 DaVinci Resolve</div>
+            <div class="skill">✂️ CapCut</div>
+            <div class="skill">🌐 HTML / CSS</div>
+            <div class="skill">📱 TikTok</div>
+            <div class="skill">▶️ YouTube</div>
+            <div class="skill">✨ Motion Design</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJETS -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <h2>Mes projets</h2>
+          <p>Une sélection de mes créations personnelles et scolaires. Cliquez sur une image pour l'agrandir.</p>
+        </div>
+        <div class="projects-grid">
+
+          <article class="project-card">
+            <div class="project-image" onclick="openLightbox(this)">
+              <img src="tiktok menu.png" alt="Chaîne TikTok de Noah Christophe" />
+            </div>
+            <div class="project-content">
+              <h3>Projet chaîne TikTok</h3>
+              <p>Je crée et publie régulièrement du contenu sur TikTok autour du montage et du contenu vidéo avec 39K+ abonnés et 1,5M+ likes.</p>
+              <div class="tag-list"><span>39K+ abonnés</span><span>Montage</span><span>Création de contenu</span></div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image" onclick="openLightbox(this)">
+              <img src="kytsun youtube.png" alt="Chaîne YouTube de Noah Christophe" />
+            </div>
+            <div class="project-content">
+              <h3>Projet chaîne YouTube</h3>
+              <p>Je développe ma chaîne YouTube autour de mes contenus et de mon univers créatif avec une stratégie de publication et un branding propre.</p>
+              <div class="tag-list"><span>YouTube</span><span>Branding</span><span>Montage</span></div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image" onclick="openLightbox(this)">
+              <img src="Adobe-Creative-Suite-Family-Software-Logo-Vector.jpg" alt="Outils de montage" />
+            </div>
+            <div class="project-content">
+              <h3>Maîtrise des logiciels</h3>
+              <p>Je continue à renforcer mon niveau sur les logiciels de création et de post-production pour gagner en qualité et autonomie.</p>
+              <div class="tag-list"><span>Photoshop</span><span>DaVinci</span><span>Freelance</span></div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image" onclick="openLightbox(this)">
+              <img src="affiche sonic 3 finale finale.png" alt="Affiche Sonic 3" />
+            </div>
+            <div class="project-content">
+              <h3>Projet en classe</h3>
+              <p>Affiche pour le film Sonic 3.</p>
+              <div class="tag-list"><span>Photoshop</span><span>Design graphique</span><span>Projet scolaire</span></div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image" onclick="openLightbox(this)">
+              <img src="devoir navailles (1).png" alt="Portrait plastique" />
+            </div>
+            <div class="project-content">
+              <h3>Projet en classe</h3>
+              <p>Portrait plastique.</p>
+              <div class="tag-list"><span>Photoshop</span><span>Illustration</span><span>Projet scolaire</span></div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image" onclick="openLightbox(this)">
+              <img src="Sans titre 489_20260413135319.png" alt="Site Green Pitch" />
+            </div>
+            <div class="project-content">
+              <h3>Green Pitch</h3>
+              <p>Création d'un site web de sport pour tous.</p>
+              <div class="tag-list"><span>Web design</span><span>HTML / CSS</span><span>Projet scolaire</span></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- OBJECTIFS -->
+    <section id="goals">
+      <div class="container">
+        <div class="section-head">
+          <h2>Objectifs</h2>
+          <p>Voici les étapes que je souhaite continuer à développer dans mon parcours.</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h3>01 — Me développer dans le freelance</h3>
+            <p>Construire progressivement une activité freelance autour du montage, du contenu créatif et de la communication visuelle, puis potentiellement en faire mon métier.</p>
+          </div>
+          <div class="timeline-item">
+            <h3>02 — Monter en niveau sur les logiciels créatifs</h3>
+            <p>Gagner en autonomie sur le montage, la post-production, le motion design et les outils 3D.</p>
+          </div>
+          <div class="timeline-item">
+            <h3>03 — Construire une identité de créateur</h3>
+            <p>Développer des projets personnels visibles, cohérents et capables de montrer mon style.</p>
+          </div>
+          <div class="timeline-item">
+            <h3>04 — Travailler dans l'audiovisuel ou le motion design</h3>
+            <p>Transformer ma passion en métier en rejoignant un environnement créatif stimulant.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <div class="container">
+        <div class="section-head">
+          <h2>Mon CV</h2>
+          <p>Retrouvez ici l'ensemble de mon parcours, mes compétences et mes expériences.</p>
+        </div>
+
+        <div class="cv-actions">
+          <button class="cv-print-btn" onclick="window.print()">🖨️ Imprimer / Télécharger en PDF</button>
+        </div>
+
+        <div class="cv-wrapper">
+
+          <!-- EN-TÊTE -->
+          <div class="cv-header">
+            <img class="cv-avatar" src="photo portfolio.jpg" alt="Photo de Noah Christophe" />
+            <div class="cv-header-info">
+              <h2>Noah Christophe</h2>
+              <div class="cv-title">Créateur de contenu · Monteur vidéo · Étudiant BUT MMI</div>
+              <p class="cv-desc">Étudiant passionné par l'audiovisuel, le montage vidéo et la création numérique. Je développe mon univers autour du contenu vidéo, de l'identité visuelle et des projets créatifs, avec pour ambition d'en faire mon métier.</p>
+            </div>
+            <div class="cv-header-contact">
+              <div class="cv-contact-item">
+                <span>📧</span>
+                <a href="mailto:noah132652@gmail.com">noah132652@gmail.com</a>
+              </div>
+              <div class="cv-contact-item">
+                <span>🎵</span>
+                <a href="https://tiktok.com/@kytsunxp" target="_blank">@kytsunxp</a>
+              </div>
+              <div class="cv-contact-item">
+                <span>▶️</span>
+                <a href="https://youtube.com/@Kytsunxp" target="_blank">@Kytsunxp</a>
+              </div>
+              <div class="cv-contact-item">
+                <span>💼</span>
+                <a href="https://www.linkedin.com/in/noah-christophe-81a4a0389/" target="_blank">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- CORPS -->
+          <div class="cv-body">
+
+            <!-- COLONNE GAUCHE -->
+            <div class="cv-left">
+
+              <div class="cv-block">
+                <h3>Soft skills</h3>
+                <div class="cv-tags">
+                  <span class="cv-tag">Créativité</span>
+                  <span class="cv-tag">Autonomie</span>
+                  <span class="cv-tag">Curiosité</span>
+                  <span class="cv-tag">Travail en équipe</span>
+                  <span class="cv-tag">Régularité</span>
+                  <span class="cv-tag">Sens du détail</span>
+                  <span class="cv-tag">Storytelling</span>
+                  <span class="cv-tag">Adaptabilité</span>
+                </div>
+              </div>
+
+              <div class="cv-block">
+                <h3>Centres d'intérêt</h3>
+                <div class="cv-hobbies">
+                  <div class="cv-hobby"><span class="cv-hobby-icon">🎬</span> Montage & création vidéo</div>
+                  <div class="cv-hobby"><span class="cv-hobby-icon">📱</span> Réseaux sociaux & tendances</div>
+                  <div class="cv-hobby"><span class="cv-hobby-icon">🎨</span> Design graphique</div>
+                  <div class="cv-hobby"><span class="cv-hobby-icon">📖</span> Manga & animation</div>
+                  <div class="cv-hobby"><span class="cv-hobby-icon">🎮</span> Jeux vidéo & culture geek</div>
+                  <div class="cv-hobby"><span class="cv-hobby-icon">⚽</span> Sport</div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- COLONNE DROITE -->
+            <div class="cv-right">
+
+              <!-- Formation -->
+              <div class="cv-block">
+                <h3>Formation</h3>
+                <div class="cv-timeline">
+
+                  <div class="cv-tl-item">
+                    <div class="cv-tl-dot"></div>
+                    <div class="cv-tl-content">
+                      <h4>BUT Métiers du Multimédia et de l'Internet (MMI)</h4>
+                      <div class="cv-tl-meta">
+                        <span class="cv-tl-org">IUT — Formation en cours</span>
+                        <span class="cv-tl-date">2024 – 2027</span>
+                      </div>
+                      <ul>
+                        <li>Conception de sites web et interfaces numériques</li>
+                        <li>Création et production audiovisuelle</li>
+                        <li>Design graphique et communication visuelle</li>
+                        <li>Stratégie de communication digitale</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="cv-tl-item">
+                    <div class="cv-tl-dot"></div>
+                    <div class="cv-tl-content">
+                      <h4>Baccalauréat</h4>
+                      <div class="cv-tl-meta">
+                        <span class="cv-tl-org">Lycée</span>
+                        <span class="cv-tl-date">2024</span>
+                      </div>
+                      <p>Obtention du baccalauréat.</p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Expériences -->
+              <div class="cv-block">
+                <h3>Expériences & projets</h3>
+                <div class="cv-timeline">
+
+                  <div class="cv-tl-item">
+                    <div class="cv-tl-dot"></div>
+                    <div class="cv-tl-content">
+                      <h4>Créateur de contenu — TikTok @kytsunxp</h4>
+                      <div class="cv-tl-meta">
+                        <span class="cv-tl-org">Projet personnel</span>
+                        <span class="cv-tl-date">2022 – aujourd'hui</span>
+                      </div>
+                      <ul>
+                        <li>Développement d'une audience de 39K+ abonnés et 1,5M+ likes</li>
+                        <li>Montage vidéo court format orienté anime & gaming</li>
+                        <li>Gestion de la stratégie de publication et de l'image de marque</li>
+                        <li>Maîtrise des tendances et des codes des réseaux sociaux</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="cv-tl-item">
+                    <div class="cv-tl-dot"></div>
+                    <div class="cv-tl-content">
+                      <h4>Créateur de contenu — YouTube @Kytsunxp</h4>
+                      <div class="cv-tl-meta">
+                        <span class="cv-tl-org">Projet personnel</span>
+                        <span class="cv-tl-date">2024 – aujourd'hui</span>
+                      </div>
+                      <ul>
+                        <li>Production de vidéos longues (montage, animation, narration)</li>
+                        <li>Création d'animations fan-made</li>
+                        <li>Branding de chaîne : identité visuelle, miniatures, intros</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="cv-tl-item">
+                    <div class="cv-tl-dot"></div>
+                    <div class="cv-tl-content">
+                      <h4>Projet Green Pitch — Site web sport pour tous</h4>
+                      <div class="cv-tl-meta">
+                        <span class="cv-tl-org">Projet BUT MMI</span>
+                        <span class="cv-tl-date">2024 – 2025</span>
+                      </div>
+                      <ul>
+                        <li>Conception et développement d'un site web multi-sports</li>
+                        <li>Design d'interface, intégration HTML / CSS</li>
+                        <li>Travail en équipe et gestion de projet</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="cv-tl-item">
+                    <div class="cv-tl-dot"></div>
+                    <div class="cv-tl-content">
+                      <h4>Projets de design graphique en classe</h4>
+                      <div class="cv-tl-meta">
+                        <span class="cv-tl-org">Projet BUT MMI</span>
+                        <span class="cv-tl-date">2024 – 2025</span>
+                      </div>
+                      <ul>
+                        <li>Création d'une affiche de film (Sonic 3) sous Photoshop</li>
+                        <li>Réalisation d'un portrait plastique numérique</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <h2>Contact</h2>
+          <p>Tu peux me contacter pour une collaboration, un échange, un projet étudiant ou simplement pour discuter création vidéo et design.</p>
+          <div class="contact-links">
+            <a class="btn btn-primary" href="mailto:noah132652@gmail.com">noah132652@gmail.com</a>
+            <a class="btn btn-secondary" href="https://www.linkedin.com/in/noah-christophe-81a4a0389/" target="_blank">LinkedIn • noah christophe</a>
+            <a class="btn btn-secondary" href="https://tiktok.com/@kytsunxp" target="_blank">TikTok • @kytsunxp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 — Noah Christophe • Portfolio BUT MMI</p>
+    </div>
+  </footer>
+
+  <script>
+    /* THÈME */
+    const root       = document.documentElement;
+    const toggleBtn  = document.getElementById('themeToggle');
+    const themeIcon  = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      themeIcon.textContent  = theme === 'light' ? '🌙' : '☀️';
+      themeLabel.textContent = theme === 'light' ? 'Mode sombre' : 'Mode clair';
+      localStorage.setItem('theme', theme);
+    }
+    toggleBtn.addEventListener('click', () => applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+    const saved = localStorage.getItem('theme');
+    if (saved) applyTheme(saved);
+
+    /* LIGHTBOX */
+    const overlay  = document.getElementById('lightbox');
+    const lightImg = document.getElementById('lightbox-img');
+    const closeBtn = document.getElementById('lightbox-close');
+
+    function openLightbox(wrapper) {
+      const img = wrapper.querySelector('img');
+      lightImg.src = img.src;
+      lightImg.alt = img.alt;
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    closeBtn.addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay || e.target === lightImg) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+
+</body>
+</html>
